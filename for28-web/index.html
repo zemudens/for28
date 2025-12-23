@@ -363,10 +363,31 @@ animation: heartbeat 2.2s infinite;
   transform:translateY(-50%) scale(1.1);
 }
 
+  /* ============================= */
+/* SIDE BY SIDE LAYOUT (WAJIB) */
+/* ============================= */
+
+.app-wrap{
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  gap:28px;
+  max-width:800px;
+  margin:80px auto;
+}
+
+/* panel kanan */
+.app-wrap .player-ui{
+  margin:0;
+  width:260px;
+}
+
 </style>
 </head>
 
 <body>
+
+  <div class="app-wrap">
 
   <!-- 💿 TURNTABLE -->
   <div class="turntable">
@@ -403,6 +424,8 @@ animation: heartbeat 2.2s infinite;
 
     <audio id="audio"></audio>
   </div>
+    
+    </div> <!-- TUTUP .app-wrap -->
 
   <!-- ❤️ LOVE LETTER POPUP -->
 <div class="love-overlay" id="loveOverlay" onclick="closeLove()">
@@ -513,6 +536,7 @@ function closeLove(){
 
 </body>
 </html>
+
 
 
 
