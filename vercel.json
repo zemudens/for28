@@ -5,5 +5,11 @@
       "src": "for28-web/**",
       "use": "@vercel/static"
     }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/for28-web/index.html"
+    }
   ]
 }
