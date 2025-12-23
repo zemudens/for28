@@ -217,10 +217,65 @@ background: linear-gradient(
   background: white;
   border-radius: 50%;
 }
+
+  .player-ui{
+  width:310px;
+  margin:20px auto;
+  color:#eee;
+  font-family:sans-serif;
+}
+
+.now-playing{
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.progress-wrap input{
+  width:100%;
+}
+
+.controls{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
+}
+
+.controls button{
+  background:#222;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.controls button:hover{
+  background:#444;
+}
+
+.playlist{
+  list-style:none;
+  padding:0;
+  margin:0;
+  font-size:13px;
+}
+
+.playlist li{
+  padding:6px;
+  border-bottom:1px solid rgba(255,255,255,0.15);
+  cursor:pointer;
+}
+
+.playlist li.active{
+  background:rgba(255,255,255,0.12);
+}
+
 </style>
 </head>
 
 <body>
+
+  <!-- 💿 TURNTABLE -->
   <div class="turntable">
     <div class="record">
       <div class="inner"></div>
@@ -231,8 +286,92 @@ background: linear-gradient(
     </div>
     <div class="dial"></div>
   </div>
+
+  <!-- 🎵 PLAYER UI -->
+  <div class="player-ui">
+
+    <div class="now-playing">
+      <marquee id="songTitle">Nothing playing</marquee>
+    </div>
+
+    <div class="progress-wrap">
+      <input type="range" id="progress" value="0">
+    </div>
+
+    <div class="controls">
+      <button onclick="prevSong()">⏮</button>
+      <button onclick="togglePlay()" id="playBtn">▶</button>
+      <button onclick="nextSong()">⏭</button>
+      <button onclick="shuffleSong()">🔀</button>
+    </div>
+
+    <ul class="playlist" id="playlist"></ul>
+
+    <audio id="audio"></audio>
+  </div>
+
+  <!-- 🔧 SCRIPT -->
+  <script>
+  const songs = [
+    {title:"Love Song 1", src:"song1.mp3"},
+    {title:"Love Song 2", src:"song2.mp3"},
+    {title:"Love Song 3", src:"song3.mp3"},
+    {title:"Love Song 4", src:"song4.mp3"},
+    {title:"Love Song 5", src:"song5.mp3"},
+    {title:"Love Song 6", src:"song6.mp3"},
+  ]
+
+  let index = 0
+  const audio = document.getElementById("audio")
+  const title = document.getElementById("songTitle")
+  const progress = document.getElementById("progress")
+  const playBtn = document.getElementById("playBtn")
+  const playlist = document.getElementById("playlist")
+
+  songs.forEach((s,i)=>{
+    const li = document.createElement("li")
+    li.textContent = s.title
+    li.onclick = ()=>loadSong(i,true)
+    playlist.appendChild(li)
+  })
+
+  function loadSong(i,auto){
+    index=i
+    audio.src=songs[i].src
+    title.textContent=songs[i].title
+    [...playlist.children].forEach(li=>li.classList.remove("active"))
+    playlist.children[i].classList.add("active")
+    if(auto){audio.play(); playBtn.textContent="⏸"}
+  }
+
+  function togglePlay(){
+    if(audio.paused){
+      audio.play()
+      playBtn.textContent="⏸"
+    }else{
+      audio.pause()
+      playBtn.textContent="▶"
+    }
+  }
+
+  function nextSong(){ loadSong((index+1)%songs.length,true) }
+  function prevSong(){ loadSong((index-1+songs.length)%songs.length,true) }
+  function shuffleSong(){ loadSong(Math.floor(Math.random()*songs.length),true) }
+
+  audio.addEventListener("timeupdate",()=>{
+    progress.value=(audio.currentTime/audio.duration)*100||0
+  })
+
+  progress.addEventListener("input",()=>{
+    audio.currentTime=(progress.value/100)*audio.duration
+  })
+
+  loadSong(0)
+  </script>
+
 </body>
 </html>
+
 
 
 
