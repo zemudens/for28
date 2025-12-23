@@ -293,6 +293,10 @@ background: linear-gradient(
   animation:popIn .5s cubic-bezier(.22,1,.36,1);
 }
 
+.love-popup{ 
+  pointer-events:auto; 
+}
+
 .love-popup h2{
   margin:0 0 12px;
   font-size:18px;
@@ -346,6 +350,12 @@ background: linear-gradient(
   box-shadow:0 6px 14px rgba(0,0,0,0.4);
   opacity:.6;
   transition:.3s;
+animation: heartbeat 2.2s infinite;
+}
+
+@keyframes heartbeat{
+  0%,100%{transform:translateY(-50%) scale(1)}
+  50%{transform:translateY(-50%) scale(1.12)}
 }
 
 .love-btn:hover{
@@ -395,7 +405,7 @@ background: linear-gradient(
   </div>
 
   <!-- ❤️ LOVE LETTER POPUP -->
-<div class="love-overlay" id="loveOverlay">
+<div class="love-overlay" id="loveOverlay" onclick="closeLove()">
   <div class="love-popup">
     <div class="love-close" onclick="closeLove()">✕</div>
     <h2>Love Letter</h2>
@@ -482,6 +492,7 @@ function closeLove(){
 
 </body>
 </html>
+
 
 
 
