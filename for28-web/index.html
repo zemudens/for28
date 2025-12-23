@@ -2,22 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Éthersound • Vinyl Love Player</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turntable Animation</title>
 
 <style>
-:root{
-  --bg:#f3eee9;
-  --brown:#6a4a3a;
-  --dark:#2b1e17;
-  --soft:#c7a17a;
-  --paper:#fffaf5;
-}
-
-*{box-sizing:border-box}
-
 body{
   background: #333642;
 }
@@ -50,7 +38,6 @@ body{
   0% {
     transform: none;
   }
-  
   100% {
     transform: rotate(360deg);
   }
@@ -78,7 +65,6 @@ body{
   background: linear-gradient(45deg, transparent, 40%, rgba(255,255,255,0.35), 60%, transparent);
   border-radius: 50%;
 }
-
 
 .inner {
   position: absolute;
@@ -157,7 +143,6 @@ body{
   0% {
      transform: skew(-20deg, -20deg);
   }
-  
   100% {
     transform: skew(-20deg, -20deg) rotate(1deg);
   }
@@ -197,16 +182,11 @@ body{
   background: white;
   border-radius: 50%;
 }
-
 </style>
 </head>
 
 <body>
-
-  <!-- === BODY YANG KAMU MAU (TIDAK DIUBAH) === -->
-<body>
-  <div class="tur
-              ntable">
+  <div class="turntable">
     <div class="record">
       <div class="inner"></div>
     </div>
@@ -217,77 +197,4 @@ body{
     <div class="dial"></div>
   </div>
 </body>
-
-    <!-- === MENU PLAYER === -->
-    <div class="title" id="title">Love Song 01</div>
-
-    <div class="controls">
-      <button onclick="prev()">⏮</button>
-      <button onclick="toggle()">⏯</button>
-      <button onclick="next()">⏭</button>
-      <button onclick="shuffle()">🔀</button>
-    </div>
-
-    <div class="menu" onclick="toggleLove()">💌 Love Letter</div>
-
-    <div class="love" id="love">
-      <i>
-        “This space is yours.  
-        A quiet place for love.”
-      </i>
-    </div>
-  </div>
-
-<script>
-const tg = window.Telegram.WebApp
-tg.expand()
-
-/* ===== 28 LOVE SONGS ===== */
-const songs = Array.from({length:28},(_,i)=>`Love Song ${i+1}`)
-let index = 0
-let playing = false
-
-const record = document.getElementById("record")
-const title = document.getElementById("title")
-
-/* LOAD SAVED SONG */
-tg.CloudStorage.getItem("song",(e,v)=>{
-  if(v){ index = +v; render() }
-})
-
-function render(){
-  title.textContent = songs[index]
-  tg.CloudStorage.setItem("song",index)
-}
-
-function toggle(){
-  playing = !playing
-  record.classList.toggle("playing",playing)
-}
-
-function next(){
-  index = (index+1)%songs.length
-  render()
-}
-
-function prev(){
-  index = (index-1+songs.length)%songs.length
-  render()
-}
-
-function shuffle(){
-  index = Math.floor(Math.random()*songs.length)
-  render()
-}
-
-function toggleLove(){
-  const l = document.getElementById("love")
-  l.style.display = l.style.display==="block"?"none":"block"
-}
-
-render()
-</script>
-
-</body>
 </html>
-
