@@ -425,6 +425,7 @@ animation: heartbeat 2.2s infinite;
   ]
 
   let index = 0
+  let isPlaying = false
   const audio = document.getElementById("audio")
   const title = document.getElementById("songTitle")
   const progress = document.getElementById("progress")
@@ -438,42 +439,62 @@ animation: heartbeat 2.2s infinite;
     playlist.appendChild(li)
   })
 
-  function loadSong(i,auto){
-    index=i
-    audio.src=songs[i].src
-    title.textContent=songs[i].title
-    [...playlist.children].forEach(li=>li.classList.remove("active"))
-    playlist.children[i].classList.add("active")
-    if(auto){audio.play(); playBtn.textContent="⏸"}
+function loadSong(i, auto){
+  index = i
+  audio.src = songs[i].src
+  title.textContent = songs[i].title
+
+  [...playlist.children].forEach(li=>li.classList.remove("active"))
+  playlist.children[i].classList.add("active")
+
+  // RESET STATE
+  isPlaying = false
+  playBtn.textContent = "▶"
+  document.querySelector(".record").style.animationPlayState = "paused"
+
+  if(auto){
+    audio.play()
+    playBtn.textContent = "⏸"
+    document.querySelector(".record").style.animationPlayState = "running"
+    isPlaying = true
   }
+}
 
 function togglePlay(){
   const record = document.querySelector(".record")
 
-  if(audio.paused){
+  if(!isPlaying){
     audio.play()
-    playBtn.textContent="⏸"
+    playBtn.textContent = "⏸"
     record.style.animationPlayState = "running"
+    isPlaying = true
   }else{
     audio.pause()
-    playBtn.textContent="▶"
+    playBtn.textContent = "▶"
     record.style.animationPlayState = "paused"
+    isPlaying = false
   }
 }
 
-  function nextSong(){ loadSong((index+1)%songs.length,true) }
-  function prevSong(){ loadSong((index-1+songs.length)%songs.length,true) }
-  function shuffleSong(){ loadSong(Math.floor(Math.random()*songs.length),true) }
+    audio.addEventListener("play", () => {
+  isPlaying = true
+  playBtn.textContent = "⏸"
+  document.querySelector(".record").style.animationPlayState = "running"
+})
 
-  audio.addEventListener("timeupdate",()=>{
-    progress.value=(audio.currentTime/audio.duration)*100||0
-  })
+audio.addEventListener("pause", () => {
+  isPlaying = false
+  playBtn.textContent = "▶"
+  document.querySelector(".record").style.animationPlayState = "paused"
+})
 
-  progress.addEventListener("input",()=>{
-    audio.currentTime=(progress.value/100)*audio.duration
-  })
+audio.addEventListener("ended", () => {
+  isPlaying = false
+  playBtn.textContent = "▶"
+  document.querySelector(".record").style.animationPlayState = "paused"
+})
 
-  loadSong(0)
+loadSong(0, false)
 
 function openLove(){
   const overlay = document.getElementById("loveOverlay")
@@ -492,6 +513,7 @@ function closeLove(){
 
 </body>
 </html>
+
 
 
 
