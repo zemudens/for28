@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "for28-web/**",
+      "use": "@vercel/static"
+    }
+  ]
+}

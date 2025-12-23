@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Éthersound</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="player">
+  <div class="turntable">
+    <div class="vinyl" id="vinyl"></div>
+    <div class="needle"></div>
+  </div>
+
+  <div class="controls">
+    <button onclick="prev()">⏮</button>
+    <button onclick="togglePlay()">⏯</button>
+    <button onclick="next()">⏭</button>
+    <button onclick="shuffle()">🔀</button>
+  </div>
+
+  <div class="love-btn" onclick="openLove()">💌 Love Letter</div>
+</div>
+
+<div class="love-modal" id="love">
+  <div class="paper">
+    <h3>My Love Letter</h3>
+    <p>(nanti kamu isi sendiri)</p>
+    <button onclick="closeLove()">Close</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
