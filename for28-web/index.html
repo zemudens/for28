@@ -9,7 +9,7 @@
 
 <style>
 :root{
-  --bg:#f4eee9;
+  --bg:#f3eee9;
   --brown:#6a4a3a;
   --dark:#2b1e17;
   --soft:#c7a17a;
@@ -29,67 +29,81 @@ body{
   color:var(--dark);
 }
 
-/* PLAYER */
-.player{
-  width:340px;
+/* ================= TURNTABLE ================= */
+
+.turntable{
+  width:320px;
   background:linear-gradient(180deg,#faf7f3,#e7ded6);
   border-radius:28px;
   padding:22px;
   box-shadow:0 30px 60px rgba(0,0,0,.18);
+  position:relative;
 }
 
-/* VINYL */
-.turntable{
-  position:relative;
+.record{
   width:220px;
   height:220px;
-  margin:10px auto 20px;
-}
-
-.vinyl{
-  width:100%;
-  height:100%;
+  margin:0 auto;
   border-radius:50%;
   background:
-    radial-gradient(circle at center,#222 0 12%,#111 13% 60%,#000 61%);
-  animation:spin 4s linear infinite;
+    radial-gradient(circle at center,#222 0 12%,#111 13% 55%,#000 56%);
+  animation:spin 4.5s linear infinite;
   animation-play-state:paused;
 }
 
-.vinyl.playing{
+.record.playing{
   animation-play-state:running;
+}
+
+.inner{
+  width:34px;
+  height:34px;
+  background:#c7a17a;
+  border-radius:50%;
+  position:absolute;
+  inset:0;
+  margin:auto;
 }
 
 @keyframes spin{
   to{transform:rotate(360deg)}
 }
 
-/* NEEDLE */
-.needle{
+/* ARM */
+.arm-holder{
   position:absolute;
+  top:32px;
+  right:12px;
+  width:120px;
+  height:120px;
+  pointer-events:none;
+}
+
+.arm{
   width:120px;
   height:6px;
   background:#444;
-  top:20px;
-  right:-40px;
   transform-origin:left center;
   transform:rotate(-25deg);
   transition:.6s ease;
 }
 
-.playing + .needle{
+.record.playing ~ .arm-holder .arm{
   transform:rotate(0deg);
 }
 
-/* TITLE */
+/* DECOR */
+.overlay,.dial{display:none}
+
+/* ================= UI ================= */
+
 .title{
   text-align:center;
-  font-size:15px;
-  margin-bottom:10px;
+  margin:14px 0 6px;
+  font-size:14px;
   color:#5a463b;
 }
 
-/* CONTROLS */
 .controls{
   display:flex;
   justify-content:space-between;
@@ -104,13 +118,22 @@ button{
   cursor:pointer;
 }
 
+.menu{
+  text-align:center;
+  font-size:13px;
+  color:var(--soft);
+  cursor:pointer;
+  margin-top:6px;
+}
+
 /* LOVE LETTER */
 .love{
+  display:none;
   margin-top:12px;
-  padding:12px;
+  padding:14px;
   border-radius:14px;
   background:var(--paper);
-  display:none;
+  font-size:13px;
   animation:fade .6s ease;
 }
 
@@ -118,56 +141,55 @@ button{
   from{opacity:0;transform:translateY(10px)}
   to{opacity:1}
 }
-
-.menu{
-  text-align:center;
-  font-size:13px;
-  margin-top:10px;
-  color:var(--soft);
-  cursor:pointer;
-}
 </style>
 </head>
 
 <body>
-<div class="player">
 
+  <!-- === BODY YANG KAMU MAU (TIDAK DIUBAH) === -->
   <div class="turntable">
-    <div id="vinyl" class="vinyl"></div>
-    <div class="needle"></div>
+    <div id="record" class="record">
+      <div class="inner"></div>
+    </div>
+    <div class="overlay"></div>
+    <div class="arm-holder">
+      <div class="arm"></div>
+    </div>
+    <div class="dial"></div>
+
+    <!-- === MENU PLAYER === -->
+    <div class="title" id="title">Love Song 01</div>
+
+    <div class="controls">
+      <button onclick="prev()">⏮</button>
+      <button onclick="toggle()">⏯</button>
+      <button onclick="next()">⏭</button>
+      <button onclick="shuffle()">🔀</button>
+    </div>
+
+    <div class="menu" onclick="toggleLove()">💌 Love Letter</div>
+
+    <div class="love" id="love">
+      <i>
+        “This space is yours.  
+        A quiet place for love.”
+      </i>
+    </div>
   </div>
-
-  <div class="title" id="title">Love Song 01</div>
-
-  <div class="controls">
-    <button onclick="prev()">⏮</button>
-    <button onclick="toggle()">⏯</button>
-    <button onclick="next()">⏭</button>
-    <button onclick="shuffle()">🔀</button>
-  </div>
-
-  <div class="menu" onclick="toggleLove()">💌 Love Letter</div>
-
-  <div class="love" id="love">
-    <i>“This space is yours…  
-    write something beautiful.”</i>
-  </div>
-
-</div>
 
 <script>
 const tg = window.Telegram.WebApp
 tg.expand()
 
-/* === 28 LOVE SONGS === */
+/* ===== 28 LOVE SONGS ===== */
 const songs = Array.from({length:28},(_,i)=>`Love Song ${i+1}`)
 let index = 0
 let playing = false
 
-const vinyl = document.getElementById("vinyl")
+const record = document.getElementById("record")
 const title = document.getElementById("title")
 
-/* LOAD SAVED */
+/* LOAD SAVED SONG */
 tg.CloudStorage.getItem("song",(e,v)=>{
   if(v){ index = +v; render() }
 })
@@ -179,7 +201,7 @@ function render(){
 
 function toggle(){
   playing = !playing
-  vinyl.classList.toggle("playing",playing)
+  record.classList.toggle("playing",playing)
 }
 
 function next(){
@@ -204,5 +226,6 @@ function toggleLove(){
 
 render()
 </script>
+
 </body>
 </html>
