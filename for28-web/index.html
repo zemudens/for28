@@ -19,136 +19,195 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:var(--bg);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--dark);
+  background: #333642;
 }
-
-/* ================= TURNTABLE ================= */
 
 .turntable{
-  width:320px;
-  background:linear-gradient(180deg,#faf7f3,#e7ded6);
-  border-radius:28px;
-  padding:22px;
-  box-shadow:0 30px 60px rgba(0,0,0,.18);
-  position:relative;
+  position: relative;
+  margin: auto;
+  display: block;
+  margin-top: 8%;
+  margin-bottom: 8%;
+  width: 310px;
+  height:280px;
+  background: #9CD8BD;
+  border-radius: 5%;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.7);
 }
 
-.record{
-  width:220px;
-  height:220px;
-  margin:0 auto;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at center,#222 0 12%,#111 13% 55%,#000 56%);
-  animation:spin 4.5s linear infinite;
-  animation-play-state:paused;
+.record {
+  position: absolute;
+  left: 35px;
+  top: 35px;
+  width: 200px;
+  height: 200px;
+  background: black;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
 }
 
-.record.playing{
-  animation-play-state:running;
+@keyframes spin {
+  0% {
+    transform: none;
+  }
+  
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-.inner{
-  width:34px;
-  height:34px;
-  background:#c7a17a;
-  border-radius:50%;
-  position:absolute;
-  inset:0;
-  margin:auto;
+.record::before {
+  content: '';
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: repeating-radial-gradient(black, black 5px, #1C1C1C 6px, #1C1C1C 7px);
+  border-radius: 50%;
 }
 
-@keyframes spin{
-  to{transform:rotate(360deg)}
+.overlay {
+  content: '';
+  left: 35px;
+  top: 35px;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(45deg, transparent, 40%, rgba(255,255,255,0.35), 60%, transparent);
+  border-radius: 50%;
 }
 
-/* ARM */
-.arm-holder{
-  position:absolute;
-  top:32px;
-  right:12px;
-  width:120px;
-  height:120px;
-  pointer-events:none;
+
+.inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(white, white 50%, #F796A8 50%, #F796A8);
+  border-radius: 50%;
 }
 
-.arm{
-  width:120px;
-  height:6px;
-  background:#444;
-  transform-origin:left center;
-  transform:rotate(-25deg);
-  transition:.6s ease;
+.inner::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background: black;
+  border-radius: 50%;
 }
 
-.record.playing ~ .arm-holder .arm{
-  transform:rotate(0deg);
+.inner::after {
+  content: '100 Days';
+  width: 55px;
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 8px;
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
 }
 
-/* DECOR */
-.overlay,.dial{display:none}
-
-/* ================= UI ================= */
-
-.title{
-  text-align:center;
-  margin:14px 0 6px;
-  font-size:14px;
-  color:#5a463b;
+.arm-holder {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: gray;
+  border-radius: 50%;
+  right: 20px;
+  top: 40px;
 }
 
-.controls{
-  display:flex;
-  justify-content:space-between;
-  margin:14px 0;
+.arm-holder::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: #939393;
+  border-radius: 50%;
 }
 
-button{
-  border:none;
-  background:none;
-  font-size:20px;
-  color:var(--brown);
-  cursor:pointer;
+.arm {
+  position: absolute;
+  right: 13px;
+  width: 60px;
+  top: 10px;
+  height: 110px;
+  border: 10px solid #939393;
+  transform: skew(-20deg, -20deg);
+  transform-origin: top right;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-radius: 0 0 30% 0;
+  animation: armTwitch 0.5s infinite;
+  animation-direction: alternate-reverse;
 }
 
-.menu{
-  text-align:center;
-  font-size:13px;
-  color:var(--soft);
-  cursor:pointer;
-  margin-top:6px;
+@keyframes armTwitch {
+  0% {
+     transform: skew(-20deg, -20deg);
+  }
+  
+  100% {
+    transform: skew(-20deg, -20deg) rotate(1deg);
+  }
 }
 
-/* LOVE LETTER */
-.love{
-  display:none;
-  margin-top:12px;
-  padding:14px;
-  border-radius:14px;
-  background:var(--paper);
-  font-size:13px;
-  animation:fade .6s ease;
+.arm::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  background: gray;
+  transform: skew(20deg, 20deg) rotate(75deg);
+  top: 98px;
+  left: -10px;
+  border-radius: 20%;
+  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
 }
 
-@keyframes fade{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1}
+.dial {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+  background: #333642;
+  border-radius: 50%;
 }
+
+.dial::before {
+  content: '';
+  left: 50%;
+  transform: translateX(-50%);
+  top: 2px;
+  position: absolute;
+  width: 2px;
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+}
+
 </style>
 </head>
 
 <body>
 
   <!-- === BODY YANG KAMU MAU (TIDAK DIUBAH) === -->
-  <div class="turntable">
-    <div id="record" class="record">
+<body>
+  <div class="tur
+              ntable">
+    <div class="record">
       <div class="inner"></div>
     </div>
     <div class="overlay"></div>
@@ -156,6 +215,8 @@ button{
       <div class="arm"></div>
     </div>
     <div class="dial"></div>
+  </div>
+</body>
 
     <!-- === MENU PLAYER === -->
     <div class="title" id="title">Love Song 01</div>
@@ -229,3 +290,4 @@ render()
 
 </body>
 </html>
+
