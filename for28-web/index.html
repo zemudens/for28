@@ -271,6 +271,61 @@ background: linear-gradient(
   background:rgba(255,255,255,0.12);
 }
 
+  /* ❤️ LOVE LETTER POPUP */
+.love-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.love-popup{
+  width:280px;
+  padding:24px;
+  background:linear-gradient(180deg,#fff6f8,#f3d9df);
+  border-radius:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.35);
+  text-align:center;
+  font-family:"Georgia",serif;
+  animation:popIn .5s cubic-bezier(.22,1,.36,1);
+}
+
+.love-popup h2{
+  margin:0 0 12px;
+  font-size:18px;
+  color:#8b3a4a;
+}
+
+.love-popup p{
+  margin:0;
+  font-size:16px;
+  color:#4a2a32;
+  letter-spacing:1px;
+}
+
+.love-close{
+  position:absolute;
+  top:14px;
+  right:18px;
+  font-size:18px;
+  cursor:pointer;
+  color:#8b3a4a;
+}
+
+@keyframes popIn{
+  from{
+    transform:scale(.7) translateY(20px);
+    opacity:0;
+  }
+  to{
+    transform:scale(1) translateY(0);
+    opacity:1;
+  }
+}
+
 </style>
 </head>
 
@@ -310,6 +365,15 @@ background: linear-gradient(
 
     <audio id="audio"></audio>
   </div>
+
+  <!-- ❤️ LOVE LETTER POPUP -->
+<div class="love-overlay" id="loveOverlay">
+  <div class="love-popup">
+    <div class="love-close" onclick="closeLove()">✕</div>
+    <h2>Love Letter</h2>
+    <p>HALOOOOOO</p>
+  </div>
+</div>
 
   <!-- 🔧 SCRIPT -->
   <script>
@@ -372,10 +436,39 @@ function togglePlay(){
   })
 
   loadSong(0)
+
+    /* ❤️ EASTER EGG: 3x CLICK VINYL */
+let clickCount = 0
+let clickTimer = null
+
+const recordEl = document.querySelector(".record")
+const loveOverlay = document.getElementById("loveOverlay")
+
+recordEl.addEventListener("click",()=>{
+  clickCount++
+
+  clearTimeout(clickTimer)
+  clickTimer = setTimeout(()=>{ clickCount = 0 },600)
+
+  if(clickCount === 3){
+    openLove()
+    clickCount = 0
+  }
+})
+
+function openLove(){
+  loveOverlay.style.display = "flex"
+}
+
+function closeLove(){
+  loveOverlay.style.display = "none"
+}
+    
   </script>
 
 </body>
 </html>
+
 
 
 
