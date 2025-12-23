@@ -66,7 +66,8 @@ background: linear-gradient(
   height: 200px;
   background: black;
   border-radius: 50%;
-  animation: spin 1s infinite linear;
+   animation: spin 1s infinite linear;
+  animation-play-state: paused;
 }
 
 @keyframes spin {
@@ -344,15 +345,19 @@ background: linear-gradient(
     if(auto){audio.play(); playBtn.textContent="⏸"}
   }
 
-  function togglePlay(){
-    if(audio.paused){
-      audio.play()
-      playBtn.textContent="⏸"
-    }else{
-      audio.pause()
-      playBtn.textContent="▶"
-    }
+function togglePlay(){
+  const record = document.querySelector(".record")
+
+  if(audio.paused){
+    audio.play()
+    playBtn.textContent="⏸"
+    record.style.animationPlayState = "running"
+  }else{
+    audio.pause()
+    playBtn.textContent="▶"
+    record.style.animationPlayState = "paused"
   }
+}
 
   function nextSong(){ loadSong((index+1)%songs.length,true) }
   function prevSong(){ loadSong((index-1+songs.length)%songs.length,true) }
@@ -371,6 +376,7 @@ background: linear-gradient(
 
 </body>
 </html>
+
 
 
 
