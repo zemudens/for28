@@ -709,9 +709,23 @@ input{
   z-index:6;
 }
 
-.love-btn img{
-  width:18px;
-  height:18px;
+.love-btn{
+  position:absolute;
+  right:-18px;
+  top:50%;
+  transform:translateY(-50%);
+  width:36px;              /* ⬅️ sedikit lebih gede */
+  height:36px;
+  padding:6px;             /* ⬅️ ini kuncinya */
+  border-radius:50%;
+  background:rgba(255,255,255,.75);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
+  animation:heartBeat 1.8s ease-in-out infinite;
+  z-index:6;
 }
 
 @keyframes heartBeat{
@@ -1296,3 +1310,4 @@ function toggleLove(){
 
 </body>
 </html>
+
